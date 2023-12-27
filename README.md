@@ -1,2 +1,2 @@
 # Chicken Disease Classification
-## ML project
+## DL project
