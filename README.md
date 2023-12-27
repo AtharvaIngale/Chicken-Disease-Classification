@@ -1,1 +1,2 @@
-# Chicken-Disease-Classification
+# Chicken Disease Classification
+## ML project
