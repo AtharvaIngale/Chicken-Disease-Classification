@@ -1,30 +1,29 @@
-artifacts_root: artifacts
+from ChickenDiseaseClassifier.constants import *
+from ChickenDiseaseClassifier.utils.common import read_yaml, create_directories
+
+class ConfigurationManager:
+    def __init__(
+        self,
+        config_filepath = CONFIG_FILE_PATH,
+        params_filepath = PARAMS_FILE_PATH):
+
+        self.config = read_yaml(config_filepath)
+        self.params = read_yaml(params_filepath)
+
+        create_directories([self.config.artifacts_root])
 
 
-data_ingestion:
-  root_dir: artifacts/data_ingestion
-  source_URL: https://github.com/AtharvaIngale/Datasets/blob/78136fd3d6a86b8011e53bb35079d81927af27b7/Chicken-fecal-images.zip
-  local_data_file: artifacts/data_ingestion/data.zip
-  unzip_dir: artifacts/data_ingestion
+    
+    def get_data_ingestion_config(self) -> DataIngestionConfig:
+        config = self.config.data_ingestion
 
+        create_directories([config.root_dir])
 
+        data_ingestion_config = DataIngestionConfig(
+            root_dir=config.root_dir,
+            source_URL=config.source_URL,
+            local_data_file=config.local_data_file,
+            unzip_dir=config.unzip_dir 
+        )
 
-prepare_base_model:
-  root_dir: artifacts/prepare_base_model
-  base_model_path: artifacts/prepare_base_model/base_model.h5
-  updated_base_model_path: artifacts/prepare_base_model/base_model_updated.h5
-
-
-
-
-prepare_callbacks:
-  root_dir: artifacts/prepare_callbacks
-  tensorboard_root_log_dir: artifacts/prepare_callbacks/tensorboard_log_dir
-  checkpoint_model_filepath: artifacts/prepare_callbacks/checkpoint_dir/model.h5
-
-
-
-
-training:
-  root_dir: artifacts/training
-  trained_model_path: artifacts/training/model.h5
+        return data_ingestion_config
